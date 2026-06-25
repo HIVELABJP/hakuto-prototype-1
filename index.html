@@ -1,0 +1,511 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>HAKUTO BIC ｜ B案 Light Cinematic</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@200;300;400;500;700;900&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+:root{
+  --blue:#c7000b; --blue-deep:#8f000a; --blue-bright:#e23b45;
+  --ink:#0d1422; --ink-2:#46545f; --ink-3:#8a97a6;
+  --bg:#ffffff; --bg-2:#f4f7fc; --bg-3:#eaf0f9; --blue-soft:#fdeaea;
+  --line:#e2e9f2; --line-2:rgba(13,20,34,.08);
+  --shadow:0 22px 60px rgba(13,40,90,.13); --shadow-sm:0 8px 26px rgba(13,40,90,.09);
+}
+*{margin:0;padding:0;box-sizing:border-box}
+*{border-radius:0 !important}
+.logo-img{height:42px;width:auto;display:block}
+html{scroll-behavior:smooth}
+body{font-family:"Noto Sans JP","Inter",sans-serif;background:var(--bg);color:var(--ink);line-height:1.8;-webkit-font-smoothing:antialiased;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+.en{font-family:"Inter",sans-serif}
+.wrap{max-width:1280px;margin:0 auto;padding:0 48px}
+
+/* ===== NAV with mega dropdown ===== */
+.nav{position:fixed;top:0;left:0;width:100%;z-index:100;background:rgba(255,255,255,.72);backdrop-filter:blur(18px);border-bottom:1px solid transparent;transition:.3s}
+.nav.scrolled{background:rgba(255,255,255,.94);border-bottom:1px solid var(--line);box-shadow:var(--shadow-sm)}
+.nav-bar{display:flex;align-items:center;justify-content:space-between;padding:16px 48px;max-width:1280px;margin:0 auto}
+.logo{display:flex;align-items:center;gap:11px;font-family:"Inter";font-weight:900;letter-spacing:.14em;font-size:19px}
+.logo .m{width:32px;height:32px;border-radius:8px;background:linear-gradient(135deg,var(--blue-bright),var(--blue-deep));display:grid;place-items:center;color:#fff;font-size:15px}
+.logo small{font-weight:300;color:var(--ink-3);font-size:12px;letter-spacing:.2em}
+.menu{display:flex;gap:6px;list-style:none}
+.menu > li > a{display:flex;align-items:center;gap:6px;padding:12px 16px;font-size:14px;font-weight:600;color:var(--ink-2);border-radius:10px;transition:.18s}
+.menu > li > a .ar{font-size:9px;opacity:.5;transition:.2s}
+.menu > li:hover > a{color:var(--blue);background:var(--blue-soft)}
+.menu > li:hover > a .ar{transform:rotate(180deg);opacity:1}
+.nav-cta{display:inline-flex;align-items:center;gap:8px;background:var(--blue);color:#fff;padding:11px 22px;border-radius:30px;font-size:13.5px;font-weight:700;transition:.22s;box-shadow:0 8px 20px rgba(199,0,11,.26)}
+.nav-cta:hover{background:var(--blue-deep);transform:translateY(-2px)}
+
+/* mega panel */
+.mega{position:absolute;left:0;top:100%;width:100%;background:rgba(255,255,255,.98);backdrop-filter:blur(18px);border-top:1px solid var(--line);box-shadow:var(--shadow);opacity:0;visibility:hidden;transform:translateY(-10px);transition:.24s;pointer-events:none}
+.nav:hover .mega.show,.menu li:hover ~ .mega{}
+.has-mega{position:static}
+.menu > li.has-mega:hover .mega{opacity:1;visibility:visible;transform:none;pointer-events:auto}
+.mega-inner{max-width:1280px;margin:0 auto;padding:38px 48px 44px;display:grid;gap:18px}
+.mega-lead{grid-column:1/-1;display:flex;justify-content:space-between;align-items:flex-end;border-bottom:1px solid var(--line);padding-bottom:18px;margin-bottom:6px}
+.mega-lead h4{font-family:"Inter";font-size:13px;letter-spacing:.18em;color:var(--blue);font-weight:700}
+.mega-lead p{font-size:13px;color:var(--ink-3)}
+/* business mega: 6 thumbs */
+.mega-biz .mega-inner{grid-template-columns:repeat(6,1fr)}
+.mega-card{border-radius:12px;overflow:hidden;border:1px solid var(--line);transition:.22s;background:#fff}
+.mega-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-sm);border-color:var(--blue-soft)}
+.mega-card .t{aspect-ratio:4/3;overflow:hidden}
+.mega-card .t img{width:100%;height:100%;object-fit:cover;transition:.5s}
+.mega-card:hover .t img{transform:scale(1.08)}
+.mega-card .c{padding:12px 13px 15px}
+.mega-card .c .e{font-family:"Inter";font-size:9.5px;letter-spacing:.1em;color:var(--blue);font-weight:600}
+.mega-card .c h5{font-size:13px;font-weight:700;margin-top:3px;line-height:1.3}
+/* simple mega: link columns */
+.mega-simple .mega-inner{grid-template-columns:repeat(4,1fr)}
+.mlink{display:block;padding:14px 16px;border-radius:10px;transition:.18s}
+.mlink:hover{background:var(--bg-2)}
+.mlink .e{font-family:"Inter";font-size:10px;letter-spacing:.1em;color:var(--blue);font-weight:600}
+.mlink h5{font-size:15px;font-weight:600;margin-top:4px}
+.mlink p{font-size:12px;color:var(--ink-3);margin-top:3px}
+
+/* ===== HERO ===== */
+.hero{position:relative;height:100vh;min-height:660px;display:flex;align-items:center;overflow:hidden}
+.hero video,.hero .pimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.hero .hv{opacity:0;transition:opacity 1.1s ease}
+.hero .hv.hv-on{opacity:1}
+.hero::after{content:"";position:absolute;inset:0;background:transparent;z-index:1}
+.hero .inner{position:relative;z-index:2;width:100%;max-width:1280px;margin:0 auto;padding:0 48px}
+.hero .kicker{font-family:"Inter";font-size:12.5px;letter-spacing:.32em;color:var(--blue);font-weight:700;margin-bottom:24px;opacity:0;animation:up 1s .2s forwards}
+.hero h1{font-family:"Inter";font-weight:900;font-size:clamp(44px,8vw,120px);line-height:.97;letter-spacing:-.03em;margin-bottom:22px;color:var(--ink)}
+.hero h1 .l1{display:block;opacity:0;animation:up 1.1s .35s forwards}
+.hero h1 .l2{display:block;color:var(--blue);opacity:0;animation:up 1.1s .5s forwards}
+.hero .jp{font-size:clamp(17px,2vw,21px);font-weight:300;color:var(--ink-2);max-width:560px;margin-bottom:38px;opacity:0;animation:up 1.1s .7s forwards}
+.hero .actions{display:flex;gap:14px;flex-wrap:wrap;opacity:0;animation:up 1.1s .85s forwards}
+@keyframes up{from{opacity:0;transform:translateY(40px)}to{opacity:1;transform:none}}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:17px 32px;border-radius:40px;font-weight:700;font-size:14.5px;transition:.26s}
+.btn-b{background:var(--blue);color:#fff;box-shadow:0 14px 34px rgba(199,0,11,.3)}
+.btn-b:hover{background:var(--blue-deep);transform:translateY(-3px)}
+.btn-o{border:1px solid var(--line);background:#fff;color:var(--ink)}
+.btn-o:hover{border-color:var(--blue);color:var(--blue)}
+.scroll-ind{position:absolute;bottom:32px;left:50%;transform:translateX(-50%);z-index:3;font-family:"Inter";font-size:10.5px;letter-spacing:.3em;color:var(--ink-3);display:flex;flex-direction:column;align-items:center;gap:10px}
+.scroll-ind .line{width:1px;height:42px;background:linear-gradient(var(--blue),transparent);animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:.25}50%{opacity:1}}
+
+/* STATEMENT */
+.statement{padding:150px 0;background:#fff;text-align:center}
+.statement .sm{font-family:"Inter";font-size:12px;letter-spacing:.3em;color:var(--blue);margin-bottom:28px;font-weight:700}
+.statement h2{font-size:clamp(20px,2.9vw,38px);font-weight:800;line-height:1.5;letter-spacing:-.01em;max-width:1180px;margin:0 auto}
+.statement h2 b{color:var(--blue)}
+.statement .thin{font-weight:300;color:var(--ink-2)}
+
+/* FEATURE full-bleed (bright) */
+.feature{position:relative;height:90vh;min-height:580px;display:flex;align-items:center;overflow:hidden}
+.feature video,.feature .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.feature::after{content:"";position:absolute;inset:0;background:transparent;z-index:1}
+.feature .fc{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 48px;width:100%}
+.feature.right .fc{text-align:right;display:flex;flex-direction:column;align-items:flex-end}
+.feature .idx{font-family:"Inter";font-size:13px;color:var(--blue);letter-spacing:.2em;margin-bottom:16px;font-weight:600}
+.feature h3{font-family:"Inter";font-size:clamp(38px,5.5vw,80px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:20px;color:#ffffff}
+.feature p{font-size:17px;font-weight:300;color:rgba(255,255,255,.92);max-width:430px;margin-bottom:28px}
+.feature .lnk{font-family:"Inter";font-size:13px;letter-spacing:.08em;font-weight:700;border-bottom:2px solid var(--blue);padding-bottom:6px;color:var(--blue)}
+/* split feature (text on light, media contained) */
+.feat-split{background:var(--bg-2);padding:120px 0;overflow:hidden}
+.fs-inner{max-width:1280px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1.05fr;gap:64px;align-items:center}
+.fs-text .idx{font-family:"Inter";font-size:13px;color:var(--blue);letter-spacing:.2em;margin-bottom:16px;font-weight:600}
+.fs-text h3{font-family:"Inter";font-size:clamp(38px,5vw,72px);font-weight:800;letter-spacing:-.02em;line-height:1;margin-bottom:20px;color:var(--ink)}
+.fs-text p{font-size:17px;font-weight:300;color:var(--ink-2);max-width:440px;margin-bottom:28px}
+.fs-text .lnk{font-family:"Inter";font-size:13px;letter-spacing:.08em;font-weight:700;border-bottom:2px solid var(--blue);padding-bottom:6px;color:var(--blue)}
+.fs-media{aspect-ratio:16/11;overflow:hidden;box-shadow:var(--shadow)}
+.fs-media img,.fs-media video{width:100%;height:100%;object-fit:cover}
+@media(max-width:900px){.fs-inner{grid-template-columns:1fr;gap:30px}}
+/* split layout: video on right, clean solid panel on left for legible text */
+.feature.split{background:var(--bg-2)}
+.feature.split video,.feature.split .bg{left:auto;right:0;width:56%}
+.feature.split .fc{max-width:1280px}
+@media(max-width:900px){.feature.split{background:#0b1424}.feature.split video,.feature.split .bg{left:0;width:100%}.feature.split .idx,.feature.split h3,.feature.split p{color:#fff}.feature.split::after{background:rgba(7,18,40,.55)}}
+
+/* DOMAINS / value chain */
+.chain{padding:140px 0;background:var(--bg-2);text-align:center}
+.chip{display:inline-block;font-family:"Inter";font-size:11.5px;letter-spacing:.16em;color:var(--blue);background:var(--blue-soft);padding:8px 18px;border-radius:30px;margin-bottom:24px;font-weight:700}
+.chain h2{font-size:clamp(30px,5vw,58px);font-weight:900;letter-spacing:-.02em;margin-bottom:16px}
+.chain .sub{color:var(--ink-2);font-weight:300;max-width:560px;margin:0 auto 60px}
+.bigshot{position:relative;border-radius:16px;overflow:hidden;margin-bottom:16px;aspect-ratio:21/9;box-shadow:var(--shadow)}
+.bigshot img,.bigshot video{width:100%;height:100%;object-fit:cover}
+.bigshot .cap{position:absolute;left:0;bottom:0;right:0;padding:40px;background:linear-gradient(transparent,rgba(7,18,40,.82));text-align:left;color:#fff}
+.bigshot .cap .t{font-family:"Inter";font-size:12px;color:#ff9aa0;letter-spacing:.16em;margin-bottom:8px}
+.bigshot .cap h4{font-size:clamp(22px,2.6vw,32px);font-weight:700}
+.bigshot .cap p{color:#cfe0f5;font-size:14px;font-weight:300;max-width:520px}
+.dgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-top:16px}
+.dom{position:relative;aspect-ratio:4/5;border-radius:14px;overflow:hidden;cursor:pointer;background:#fff}
+.dom img{width:100%;height:100%;object-fit:cover;transition:.7s}
+.dom:hover img{transform:scale(1.07)}
+.dom::after{content:"";position:absolute;inset:0;background:linear-gradient(transparent 42%,rgba(7,18,40,.86));z-index:1}
+.dom .info{position:absolute;left:0;bottom:0;padding:26px;z-index:2;text-align:left;color:#fff}
+.dom .info .no{font-family:"Inter";font-size:11px;color:#ff9aa0;letter-spacing:.2em}
+.dom .info h4{font-size:21px;font-weight:700;margin:8px 0 0}
+.dom .info .e{font-family:"Inter";font-size:11px;color:#edc7c9;letter-spacing:.1em}
+.dom .info p{font-size:13px;color:#d8e4f4;font-weight:300;max-height:0;overflow:hidden;opacity:0;transition:.4s}
+.dom:hover .info p{max-height:84px;opacity:1;margin-top:12px}
+
+/* STATS */
+.stats{position:relative;padding:140px 0;background:var(--bg-3);overflow:hidden}
+.stats .sbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;opacity:.14}
+.stats::after{content:"";position:absolute;inset:0;background:transparent;z-index:1}
+.stats .sc{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 48px;display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start}
+.stats .left h2{font-size:clamp(28px,3.6vw,46px);font-weight:900;line-height:1.2;letter-spacing:-.02em}
+.stats .left p{color:var(--ink-2);font-weight:300;margin-top:18px;max-width:380px}
+.stats .nums{display:flex;flex-direction:column;gap:26px}
+.stats .row{border-left:3px solid var(--blue);padding-left:22px}
+.stats .row .big{font-family:"Inter";font-size:clamp(44px,6vw,76px);font-weight:800;line-height:1;letter-spacing:-.03em}
+.stats .row .big span{color:var(--blue)}
+.stats .row .lab{color:var(--ink-2);font-size:13px;margin-top:6px}
+
+/* STORIES */
+.stories{padding:140px 0;background:#fff}
+.stories .hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:46px;flex-wrap:wrap;gap:20px}
+.stories h2{font-size:clamp(28px,4vw,50px);font-weight:900;letter-spacing:-.02em}
+.sgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:18px}
+.story{cursor:pointer}
+.story .im{position:relative;aspect-ratio:4/5;border-radius:12px;overflow:hidden;margin-bottom:15px;box-shadow:var(--shadow-sm)}
+.story .im img,.story .im video{width:100%;height:100%;object-fit:cover;transition:transform .7s ease}
+.story:hover .im img{transform:scale(1.06)}
+.story .c{font-family:"Inter";font-size:11px;color:var(--blue);letter-spacing:.12em;font-weight:600}
+.story h4{font-size:15px;font-weight:600;margin-top:8px;line-height:1.5}
+/* NEWS (text list) */
+.newssec{background:#fff;padding:120px 0;border-top:1px solid var(--line)}
+.news-inner{display:grid;grid-template-columns:280px 1fr;gap:50px;align-items:start}
+.news-head h2{font-family:"Inter";font-size:clamp(32px,4vw,52px);font-weight:900;letter-spacing:-.02em;color:var(--ink)}
+.news-all{display:inline-block;margin-top:22px;border:1.5px solid var(--ink);padding:12px 26px;font-size:13px;font-weight:700;color:var(--ink);transition:.2s}
+.news-all:hover{background:var(--blue);border-color:var(--blue);color:#fff}
+.news-list{border-top:1px solid var(--line)}
+.news-row{display:flex;align-items:center;gap:36px;padding:22px 4px;border-bottom:1px dotted var(--ink-3);transition:.2s}
+.news-row:hover{color:var(--blue);padding-left:10px}
+.news-row .nd{font-family:"Inter";font-size:14px;color:var(--ink-3);letter-spacing:.04em;flex-shrink:0;width:96px}
+.news-row .nt{font-size:15px;font-weight:500}
+@media(max-width:800px){.news-inner{grid-template-columns:1fr;gap:24px}}
+
+/* CTA */
+.bigcta{position:relative;min-height:62vh;display:flex;align-items:center;justify-content:center;text-align:center;overflow:hidden;padding:120px 0}
+.bigcta video,.bigcta .cbg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.bigcta::after{content:"";position:absolute;inset:0;background:linear-gradient(120deg,rgba(143,0,10,.86),rgba(199,0,11,.7));z-index:1}
+.bigcta .cc{position:relative;z-index:2;padding:0 30px;color:#fff}
+.bigcta h2{font-size:clamp(32px,5.5vw,76px);font-weight:900;line-height:1.05;letter-spacing:-.03em;margin-bottom:24px}
+.bigcta p{font-size:17px;font-weight:300;opacity:.95;margin-bottom:36px}
+.bigcta .btn-w{background:#fff;color:var(--blue)}
+.bigcta .btn-w:hover{transform:translateY(-3px);box-shadow:0 16px 40px rgba(0,0,0,.22)}
+
+/* FOOTER */
+footer{background:#fff;color:var(--ink-2);padding:74px 0 42px;border-top:1px solid var(--line)}
+.fg{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:40px;margin-bottom:50px}
+footer .logo{color:var(--ink);margin-bottom:18px}
+footer .fg p{color:var(--ink-2);font-size:13px;font-weight:300;max-width:300px}
+footer h5{font-family:"Inter";font-size:12px;letter-spacing:.12em;color:var(--ink);margin-bottom:16px}
+footer a{display:block;color:var(--ink-2);font-size:13px;padding:6px 0;font-weight:300;transition:.2s}
+footer a:hover{color:var(--blue)}
+.fb{border-top:1px solid var(--line);padding-top:24px;display:flex;justify-content:space-between;color:var(--ink-3);font-size:12px;flex-wrap:wrap;gap:10px}
+
+.reveal{opacity:0;transform:translateY(40px);transition:1s cubic-bezier(.16,1,.3,1)}
+.reveal.in{opacity:1;transform:none}
+.ribbon{position:fixed;bottom:18px;right:18px;z-index:200;background:#fff;border:1px solid var(--line);color:var(--ink);font-family:"Inter";font-size:11px;font-weight:700;letter-spacing:.08em;padding:9px 16px;border-radius:30px;box-shadow:var(--shadow-sm)}
+.ribbon b{color:var(--blue)}
+
+@media(max-width:1000px){
+  .menu{display:none}
+  .wrap,.hero .inner,.feature .fc,.stats .sc,.bigcta .cc{padding-left:24px;padding-right:24px}
+  .dgrid{grid-template-columns:1fr 1fr}.sgrid{grid-template-columns:1fr 1fr}
+  .stats .sc{grid-template-columns:1fr;gap:40px}.fg{grid-template-columns:1fr 1fr}
+}
+@media(max-width:560px){.dgrid,.sgrid{grid-template-columns:1fr}.feature.right .fc{text-align:left;align-items:flex-start}}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="nav" id="nav">
+  <div class="nav-bar">
+    <a href="#top" class="logo"><img src="cmn_logo01.svg" alt="HAKUTO" class="logo-img"></a>
+    <ul class="menu">
+      <li class="has-mega"><a href="#why">WHY <span class="ar">▾</span></a>
+        <div class="mega mega-simple"><div class="mega-inner">
+          <div class="mega-lead"><h4>WHY HAKUTO BIC</h4><p>共に新領域をつくる思想</p></div>
+          <a class="mlink" href="#why"><div class="e">VISION</div><h5>ビジョン・パーパス</h5><p>私たちが新領域に挑む理由</p></a>
+          <a class="mlink" href="#why"><div class="e">CONCEPT</div><h5>インキュベーションとは</h5><p>事業創出の仕組み</p></a>
+          <a class="mlink" href="#statement"><div class="e">PHILOSOPHY</div><h5>コト売りの思想</h5><p>モノからコトへ</p></a>
+          <a class="mlink" href="#about"><div class="e">ABOUT</div><h5>部門情報</h5><p>体制・沿革</p></a>
+        </div></div>
+      </li>
+      <li class="has-mega"><a href="#chain">BUSINESS <span class="ar">▾</span></a>
+        <div class="mega mega-biz"><div class="mega-inner">
+          <div class="mega-lead"><h4>5 BUSINESS DOMAINS + CORE</h4><p>領域を越える知見で、課題を価値へ</p></div>
+          <a class="mega-card" href="#chain"><div class="t"><img src="assets/hf_20260623_024609_7ded0f9b-7c66-4a7c-8a07-56a58e5d9dbb_min.webp"></div><div class="c"><div class="e">MEDICAL</div><h5>医療・ヘルスケア</h5></div></a>
+          <a class="mega-card" href="#chain"><div class="t"><img src="assets/hf_20260623_024612_12c84840-a966-47bb-a8ef-d86d516716ac_min.webp"></div><div class="c"><div class="e">BEAUTY</div><h5>化粧品・ビューティー</h5></div></a>
+          <a class="mega-card" href="#chain"><div class="t"><img src="assets/hf_20260623_024614_31e07451-6b74-40d7-85d4-4343a0374007_min.webp"></div><div class="c"><div class="e">AGRITECH</div><h5>スマート農業</h5></div></a>
+          <a class="mega-card" href="#chain"><div class="t"><img src="assets/hf_20260623_024623_b3d8447e-f06a-4427-a92d-87a064160732_min.webp"></div><div class="c"><div class="e">WORKPLACE</div><h5>オフィス</h5></div></a>
+          <a class="mega-card" href="#chain"><div class="t"><img src="assets/hf_20260623_024626_c0d2d1f2-c22a-4ab1-b402-ddfbcbe94a6f_min.webp"></div><div class="c"><div class="e">RFID</div><h5>RFID・物流</h5></div></a>
+          <a class="mega-card" href="#chain"><div class="t"><img src="assets/hf_20260623_024630_3bf0f7fd-50d2-407f-a8b0-95d6de41e80e_min.webp"></div><div class="c"><div class="e">CORE TECH</div><h5>電子×化学</h5></div></a>
+        </div></div>
+      </li>
+      <li class="has-mega"><a href="#solutions">SOLUTIONS <span class="ar">▾</span></a>
+        <div class="mega mega-simple"><div class="mega-inner">
+          <div class="mega-lead"><h4>SOLUTIONS</h4><p>課題起点のソリューション</p></div>
+          <a class="mlink" href="#solutions"><div class="e">FEATURED</div><h5>注目ソリューション</h5><p>領域横断の提供価値</p></a>
+          <a class="mlink" href="#solutions"><div class="e">PROCESS</div><h5>協創プロセス</h5><p>How we work（4ステップ）</p></a>
+          <a class="mlink" href="#stats"><div class="e">STRENGTH</div><h5>強み・実績</h5><p>数字で見るBIC</p></a>
+          <a class="mlink" href="#contact"><div class="e">START</div><h5>導入相談</h5><p>まずはお気軽に</p></a>
+        </div></div>
+      </li>
+      <li class="has-mega"><a href="#stories">CASES <span class="ar">▾</span></a>
+        <div class="mega mega-simple"><div class="mega-inner">
+          <div class="mega-lead"><h4>CASE STUDIES</h4><p>コト売りで生まれた成果</p></div>
+          <a class="mlink" href="#stories"><div class="e">ALL</div><h5>事例一覧</h5><p>領域・業種で探す</p></a>
+          <a class="mlink" href="#stories"><div class="e">MEDICAL</div><h5>医療の事例</h5></a>
+          <a class="mlink" href="#stories"><div class="e">AGRI</div><h5>農業の事例</h5></a>
+          <a class="mlink" href="#stories"><div class="e">RFID</div><h5>物流の事例</h5></a>
+        </div></div>
+      </li>
+      <li class="has-mega"><a href="#news">NEWS <span class="ar">▾</span></a>
+        <div class="mega mega-simple"><div class="mega-inner">
+          <div class="mega-lead"><h4>NEWS</h4><p>最新のお知らせ</p></div>
+          <a class="mlink" href="#news"><div class="e">PRESS</div><h5>プレスリリース</h5></a>
+          <a class="mlink" href="#news"><div class="e">EVENT</div><h5>展示会・イベント</h5></a>
+          <a class="mlink" href="#news"><div class="e">PRODUCT</div><h5>製品情報</h5></a>
+          <a class="mlink" href="#news"><div class="e">COLUMN</div><h5>コラム</h5></a>
+        </div></div>
+      </li>
+      <li><a href="#about">ABOUT</a></li>
+    </ul>
+    <a href="#contact" class="nav-cta">導入を相談する</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<header class="hero" id="top">
+  <video class="hv hv-on" id="hv1" autoplay muted playsinline poster="assets/hf_20260623_024607_c4403547-e548-462d-979b-2a457ec92e66_min.webp">
+    <source src="assets/hf_20260623_032419_a5cfb020-c3fc-4d68-8440-b6f183bd68a5.mp4" type="video/mp4">
+  </video>
+  <video class="hv" id="hv2" muted playsinline preload="auto">
+    <source src="assets/hf_20260623_025003_7b0a0044-b0a1-4ef1-acfd-c29f312d209c.mp4" type="video/mp4">
+  </video>
+  <div class="inner">
+    <div class="kicker">HAKUTO BUSINESS INCUBATION CENTER</div>
+    <h1><span class="l1">BORN OF</span><span class="l2">CURIOSITY.</span></h1>
+    <p class="jp">その好奇心が、次の常識になる。<br>エレクトロニクスと化学の技術を起点に、産業の未来を見据えた価値創造に挑み続けます。</p>
+    <div class="actions">
+      <a href="#chain" class="btn btn-b">事業領域を見る →</a>
+      <a href="#contact" class="btn btn-o">導入を相談する</a>
+    </div>
+  </div>
+  <div class="scroll-ind"><span>SCROLL</span><div class="line"></div></div>
+</header>
+
+<!-- STATEMENT -->
+<section class="statement" id="why">
+  <div class="wrap">
+    <div class="sm reveal">WHY HAKUTO BIC</div>
+    <h2 class="reveal"><span class="thin">私たちは、“モノ”を売る会社ではありません。</span><br>現場の課題に向き合い、技術をつなぎ、<br><b>新たな価値を共に創り出します。</b></h2>
+  </div>
+</section>
+
+<!-- FEATURE 1: sustainability (bright aerial video) -->
+<section class="feature" id="statement-feature">
+  <video autoplay muted loop playsinline>
+    <source src="assets/hf_20260624_103836_6d1454cd-2c8e-4dad-848c-57fa557f7780.mp4" type="video/mp4">
+  </video>
+  <div class="fc">
+    <div class="idx reveal">01 / GLOBAL NETWORK</div>
+    <h3 class="reveal">見えない場所から、<br>世界をつなぐ。</h3>
+    <p class="reveal">HAKUTOのコネクタは、産業機器から通信機器、医療機器まで。<br>世界中のさまざまな製品の中で、確かな接続を支えています。</p>
+    <a href="#chain" class="lnk reveal">事業を見る →</a>
+  </div>
+</section>
+
+<!-- DOMAINS -->
+<section class="chain" id="chain">
+  <div class="wrap">
+    <div class="chip reveal">BUSINESS DOMAINS</div>
+    <h2 class="reveal">5つの事業領域</h2>
+    <p class="sub reveal">医療から物流まで。領域を越える知見で、現場の課題を新しい価値へと変えていきます。</p>
+
+    <div class="bigshot reveal">
+      <video autoplay muted loop playsinline poster="assets/hf_20260623_024623_b3d8447e-f06a-4427-a92d-87a064160732_min.webp">
+        <source src="assets/hf_20260623_032423_39ce6bc5-c70d-4fa0-bb44-49d9fb754973.mp4" type="video/mp4">
+      </video>
+      <div class="cap"><div class="t">FEATURED · WORKPLACE & CO-CREATION</div><h4>人を中心にした、これからの“働く”と“共創”</h4><p>快適性と生産性を両立する空間から、新規事業の共創拠点まで。</p></div>
+    </div>
+
+    <div class="dgrid">
+      <div class="dom reveal"><img src="assets/hf_20260623_024609_7ded0f9b-7c66-4a7c-8a07-56a58e5d9dbb_min.webp"><div class="info"><div class="no">01</div><h4>医療・ヘルスケア</h4><div class="e">MEDICAL / HEALTHCARE</div><p>診断から予防へ。先進デバイスとデータで医療現場の“次”を実装。</p></div></div>
+      <div class="dom reveal"><img src="assets/hf_20260623_024612_12c84840-a966-47bb-a8ef-d86d516716ac_min.webp"><div class="info"><div class="no">02</div><h4>化粧品・ビューティー</h4><div class="e">BEAUTY SCIENCE</div><p>美しさを科学する。素材・分析・処方の知見でブランド価値を支える。</p></div></div>
+      <div class="dom reveal"><img src="assets/hf_20260623_024614_31e07451-6b74-40d7-85d4-4343a0374007_min.webp"><div class="info"><div class="no">03</div><h4>スマート農業</h4><div class="e">AGRITECH</div><p>経験を、データに。センシングと自動化で持続可能な農業へ。</p></div></div>
+      <div class="dom reveal"><img src="assets/hf_20260623_024626_c0d2d1f2-c22a-4ab1-b402-ddfbcbe94a6f_min.webp"><div class="info"><div class="no">04</div><h4>RFID・物流</h4><div class="e">SMART LOGISTICS</div><p>可視化が現場を変える。在庫・トレースを即時に。</p></div></div>
+      <div class="dom reveal"><img src="assets/hf_20260623_024623_b3d8447e-f06a-4427-a92d-87a064160732_min.webp"><div class="info"><div class="no">05</div><h4>オフィス・ワークプレイス</h4><div class="e">WORKPLACE</div><p>働く場を、もっと人に。快適性と生産性を両立する空間ソリューション。</p></div></div>
+      <div class="dom reveal"><img src="assets/hf_20260623_024630_3bf0f7fd-50d2-407f-a8b0-95d6de41e80e_min.webp"><div class="info"><div class="no">+</div><h4>技術の核：電子×化学</h4><div class="e">TECHNOLOGY CORE</div><p>半導体・電子部品と工業薬剤。2つの強みの融合が新領域の源泉。</p></div></div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURE 2: technology (split, readable) -->
+<section class="feat-split" id="solutions">
+  <div class="fs-inner">
+    <div class="fs-text">
+      <div class="idx reveal">02 / TECHNOLOGY</div>
+      <h3 class="reveal">Precision</h3>
+      <p class="reveal">センシング、データ、素材科学。要素技術を組み合わせ、課題に最適な“解決”を設計します。</p>
+      <a href="#stories" class="lnk reveal">事例を見る →</a>
+    </div>
+    <div class="fs-media reveal">
+      <video autoplay muted loop playsinline poster="assets/hf_20260623_024630_3bf0f7fd-50d2-407f-a8b0-95d6de41e80e_min.webp">
+        <source src="assets/hf_20260623_025007_4e135e78-0779-4f91-97ca-96f3c38fe672.mp4" type="video/mp4">
+      </video>
+    </div>
+  </div>
+</section>
+
+<!-- STATS -->
+<section class="stats" id="stats">
+  <img class="sbg" src="assets/hf_20260623_024634_d0ee03e0-62d5-4bf2-833a-84579c9daf82_min.webp">
+  <div class="sc">
+    <div class="left reveal">
+      <h2>70年以上の知見が、<br>新領域への確信になる。</h2>
+      <p>1953年創業。エレクトロニクスと化学の最前線で築いた基盤が、ビジネスインキュベーションセンターの推進力です。</p>
+    </div>
+    <div class="nums">
+      <div class="row reveal"><div class="big"><span class="cnt" data-to="70">0</span><span>年+</span></div><div class="lab">エレクトロニクス×化学の事業基盤</div></div>
+      <div class="row reveal"><div class="big"><span class="cnt" data-to="5">0</span><span>領域+</span></div><div class="lab">医療 / 化粧品 / 農業 / オフィス / RFID（拡張中）</div></div>
+      <div class="row reveal"><div class="big">約<span class="cnt" data-to="2200">0</span><span>億円</span></div><div class="lab">伯東グループ 連結売上規模</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- STORIES -->
+<section class="stories" id="stories">
+  <div class="wrap">
+    <div class="hd">
+      <div class="reveal"><div class="chip">CASE STUDIES</div><h2 style="margin-top:16px">導入事例</h2></div>
+      <a href="#" class="lnk reveal" style="font-family:Inter;font-size:13px;letter-spacing:.08em;font-weight:700;border-bottom:2px solid var(--blue);padding-bottom:6px;color:var(--blue)">すべて見る →</a>
+    </div>
+    <div class="sgrid">
+      <div class="story reveal"><div class="im"><video class="sv" muted playsinline preload="auto" poster="assets/hf_20260623_024614_31e07451-6b74-40d7-85d4-4343a0374007_min.webp"><source src="assets/hf_20260623_050919_4313720f-53bb-44b0-8550-0ea678ddd775.mp4" type="video/mp4"></video></div><div class="c">CASE · AGRITECH</div><h4>環境制御ハウスの自動化で、収量と品質を両立</h4></div>
+      <div class="story reveal"><div class="im"><video class="sv" muted playsinline preload="auto" poster="assets/hf_20260623_024626_c0d2d1f2-c22a-4ab1-b402-ddfbcbe94a6f_min.webp"><source src="assets/hf_20260623_050921_f76b45a8-4f82-40ff-9bd6-bc01ddd050bd.mp4" type="video/mp4"></video></div><div class="c">CASE · RFID</div><h4>在庫可視化で棚卸し工数を大幅に削減</h4></div>
+      <div class="story reveal"><div class="im"><video class="sv" muted playsinline preload="auto" poster="assets/hf_20260623_024628_b7e81a3e-4c0c-4cb2-bcb1-eda640e2e56c_min.webp"><source src="assets/hf_20260623_050924_cc62626d-07ec-4b47-b169-0b6c73fb90be.mp4" type="video/mp4"></video></div><div class="c">CO-CREATION</div><h4>顧客と共に描く、新規事業の最初の一歩</h4></div>
+      <div class="story reveal"><div class="im"><video class="sv" muted playsinline preload="auto" poster="assets/hf_20260623_024612_12c84840-a966-47bb-a8ef-d86d516716ac_min.webp"><source src="assets/hf_20260623_050925_bbe5e098-34ff-4739-9236-b861ec3e5e2a.mp4" type="video/mp4"></video></div><div class="c">CASE · BEAUTY</div><h4>素材分析の知見で、ブランドの処方開発を支援</h4></div>
+    </div>
+  </div>
+</section>
+
+<!-- NEWS (text list) -->
+<section class="newssec" id="news">
+  <div class="wrap news-inner">
+    <div class="news-head reveal">
+      <h2>NEWS</h2>
+      <a href="#" class="news-all">お知らせ一覧 →</a>
+    </div>
+    <div class="news-list reveal">
+      <a class="news-row" href="#"><span class="nd">2026.09.15</span><span class="nt">ビジネスインキュベーションセンター 新ポータルサイトを公開</span></a>
+      <a class="news-row" href="#"><span class="nd">2026.08.28</span><span class="nt">スマート農業EXPO 2026 に出展します</span></a>
+      <a class="news-row" href="#"><span class="nd">2026.08.10</span><span class="nt">RFIDスマートロジスティクス・ソリューションを拡充</span></a>
+      <a class="news-row" href="#"><span class="nd">2026.07.22</span><span class="nt">「コト売り」へ——商社が新領域を生む理由（コラム）</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- ABOUT mini -->
+<section class="statement" id="about" style="background:var(--bg-2);padding:120px 0">
+  <div class="wrap">
+    <div class="sm reveal">ABOUT BIC</div>
+    <h2 class="reveal" style="font-size:clamp(24px,3.4vw,40px)"><span class="thin">伯東株式会社 ビジネスインキュベーションセンター。</span><br>1953年創業の基盤の上で、<br><b>新規事業・新領域の創出を担う部門です。</b></h2>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="bigcta" id="contact">
+  <video autoplay muted loop playsinline poster="assets/hf_20260623_024628_b7e81a3e-4c0c-4cb2-bcb1-eda640e2e56c_min.webp">
+    <source src="assets/hf_20260623_032419_a5cfb020-c3fc-4d68-8440-b6f183bd68a5.mp4" type="video/mp4">
+  </video>
+  <div class="cc">
+    <h2>より良い未来を、<br>いっしょに、共創する。</h2>
+    <p>導入のご相談、ソリューションのお問い合わせはこちらから。</p>
+    <a href="#" class="btn btn-w">導入を相談する →</a>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap">
+    <div class="fg">
+      <div><img src="cmn_logo01.svg" alt="HAKUTO" style="height:50px;width:auto;margin-bottom:16px"><p>伯東株式会社 ビジネスインキュベーションセンター。好奇心を起点に、次の産業を共創します。</p></div>
+      <div><h5>BUSINESS</h5><a href="#chain">医療・ヘルスケア</a><a href="#chain">化粧品・ビューティー</a><a href="#chain">スマート農業</a><a href="#chain">オフィス</a><a href="#chain">RFID・物流</a></div>
+      <div><h5>ABOUT</h5><a href="#why">WHY</a><a href="#stats">数字で見るBIC</a><a href="#stories">ストーリー</a><a href="#about">部門情報</a></div>
+      <div><h5>CONTACT</h5><a href="#contact">導入相談</a><a href="#contact">資料ダウンロード</a><a href="#">伯東グループ</a></div>
+    </div>
+    <div class="fb"><span>© 2026 HAKUTO Co., Ltd. Business Incubation Center.</span></div>
+  </div>
+</footer>
+
+<script>
+const nav=document.getElementById('nav');
+addEventListener('scroll',()=>nav.classList.toggle('scrolled',scrollY>40));
+const io=new IntersectionObserver(es=>es.forEach(e=>{if(e.isIntersecting)e.target.classList.add('in')}),{threshold:.14});
+document.querySelectorAll('.reveal').forEach(el=>io.observe(el));
+
+// count-up animation for stats numbers
+(function(){
+  function countUp(el,to,dur){
+    const start=performance.now();
+    (function tick(now){
+      const p=Math.min((now-start)/dur,1), e=1-Math.pow(1-p,3);
+      el.textContent=Math.round(to*e).toLocaleString();
+      if(p<1) requestAnimationFrame(tick); else el.textContent=to.toLocaleString();
+    })(start);
+  }
+  const sec=document.getElementById('stats');
+  if(!sec) return;
+  const co=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){
+      sec.querySelectorAll('.cnt').forEach(c=>countUp(c,+c.dataset.to,1600));
+      co.disconnect();
+    }
+  }),{threshold:.4});
+  co.observe(sec);
+})();
+
+// STORIES: play the 4 clips one after another when the section enters view
+(function(){
+  const vids=[...document.querySelectorAll('#stories .story .im video.sv')];
+  if(!vids.length) return;
+  let active=false;
+  function play(i){
+    if(!active) return;
+    vids.forEach((v,j)=>{ if(j!==i){ try{v.pause();}catch(e){} } });
+    const v=vids[i]; if(!v) return;
+    try{ v.currentTime=0; }catch(e){}
+    const p=v.play(); if(p&&p.catch) p.catch(()=>{});
+  }
+  vids.forEach((v,i)=>v.addEventListener('ended',()=>play((i+1)%vids.length)));
+  const so=new IntersectionObserver(es=>es.forEach(e=>{
+    if(e.isIntersecting){ if(!active){ active=true; play(0); } }
+    else { active=false; vids.forEach(v=>{try{v.pause();}catch(e){}}); }
+  }),{threshold:.3});
+  const sec=document.getElementById('stories');
+  if(sec) so.observe(sec);
+})();
+
+// Hero: alternate (crossfade) between B-hero video and A video
+(function(){
+  const v1=document.getElementById('hv1'), v2=document.getElementById('hv2');
+  if(!v1||!v2) return;
+  let cur=v1, nxt=v2;
+  function swap(){
+    try{ nxt.currentTime=0; }catch(e){}
+    const p=nxt.play();
+    if(p&&p.catch) p.catch(()=>{});
+    nxt.classList.add('hv-on');
+    cur.classList.remove('hv-on');
+    [cur,nxt]=[nxt,cur];
+  }
+  v1.addEventListener('ended',swap);
+  v2.addEventListener('ended',swap);
+  // kick off playback (autoplay safety)
+  const k=v1.play(); if(k&&k.catch) k.catch(()=>{});
+})();
+</script>
+</body>
+</html>
