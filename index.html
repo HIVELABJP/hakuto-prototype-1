@@ -95,12 +95,13 @@ a{color:inherit;text-decoration:none}
 .statement .sm{font-family:"Inter";font-size:12px;letter-spacing:.3em;color:var(--blue);margin-bottom:28px;font-weight:700}
 .statement h2{font-size:clamp(20px,2.9vw,38px);font-weight:800;line-height:1.5;letter-spacing:-.01em;max-width:1180px;margin:0 auto}
 .statement h2 b{color:var(--blue)}
-.statement .thin{font-weight:300;color:var(--ink-2)}
+.statement .thin{font-weight:300;color:var(--ink-2);font-size:.8em}
 
 /* FEATURE full-bleed (bright) */
 .feature{position:relative;height:90vh;min-height:580px;display:flex;align-items:center;overflow:hidden}
 .feature video,.feature .bg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .feature::after{content:"";position:absolute;inset:0;background:transparent;z-index:1}
+#statement-feature::after{background:linear-gradient(90deg,rgba(10,12,16,.74) 0%,rgba(10,12,16,.34) 42%,rgba(10,12,16,0) 70%)}
 .feature .fc{position:relative;z-index:2;max-width:1280px;margin:0 auto;padding:0 48px;width:100%}
 .feature.right .fc{text-align:right;display:flex;flex-direction:column;align-items:flex-end}
 .feature .idx{font-family:"Inter";font-size:13px;color:var(--blue);letter-spacing:.2em;margin-bottom:16px;font-weight:600}
@@ -288,7 +289,7 @@ footer a:hover{color:var(--blue)}
   <div class="inner">
     <div class="kicker">HAKUTO BUSINESS INCUBATION CENTER</div>
     <h1><span class="l1">BORN OF</span><span class="l2">CURIOSITY.</span></h1>
-    <p class="jp">その好奇心が、次の常識になる。<br>エレクトロニクスと化学の技術を起点に、産業の未来を見据えた価値創造に挑み続けます。</p>
+    <p class="jp">その好奇心が、次の常識になる。<br>エレクトロニクスと化学の技術を起点に、<br>産業の未来を見据えた価値創造に挑み続けます。</p>
     <div class="actions">
       <a href="#chain" class="btn btn-b">事業領域を見る →</a>
       <a href="#contact" class="btn btn-o">導入を相談する</a>
@@ -307,13 +308,13 @@ footer a:hover{color:var(--blue)}
 
 <!-- FEATURE 1: sustainability (bright aerial video) -->
 <section class="feature" id="statement-feature">
-  <video autoplay muted loop playsinline>
-    <source src="assets/hf_20260624_103836_6d1454cd-2c8e-4dad-848c-57fa557f7780.mp4" type="video/mp4">
+  <video autoplay muted loop playsinline poster="assets/poster-global-network.jpg">
+    <source src="assets/vid-global-network.mp4" type="video/mp4">
   </video>
   <div class="fc">
     <div class="idx reveal">01 / GLOBAL NETWORK</div>
-    <h3 class="reveal">見えない場所から、<br>世界をつなぐ。</h3>
-    <p class="reveal">HAKUTOのコネクタは、産業機器から通信機器、医療機器まで。<br>世界中のさまざまな製品の中で、確かな接続を支えています。</p>
+    <h3 class="reveal">技術をつなぎ、<br>現場を前へ</h3>
+    <p class="reveal">エレクトロニクス、IoT、AI、環境・エネルギー領域の<br>知見を活かし、お客様の課題に合わせた<br>ソリューションを提案します。</p>
     <a href="#chain" class="lnk reveal">事業を見る →</a>
   </div>
 </section>

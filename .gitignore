@@ -6,3 +6,4 @@ Thumbs.db
 # Node (none used, just in case)
 node_modules/
 .vercel/
+.vercel
